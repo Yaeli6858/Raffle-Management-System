@@ -16,7 +16,7 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<IEnumerable<CategoryModel>> GetAllCategoriesAsync()
     {
-        return await _context.Categories.ToListAsync();
+        return await _context.Categories.Take(100).ToListAsync();
     }
 
     public async Task<CategoryModel?> GetCategoryByIdAsync(int id)

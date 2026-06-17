@@ -48,7 +48,7 @@ public class GiftRepository : IGiftRepository
             _ => query
         };
 
-        return await query.ToListAsync();
+        return await query.Take(100).ToListAsync();
     }
 
     public async Task<IEnumerable<GiftModel>> GetGiftsAsync(PriceSort sort)
@@ -67,7 +67,7 @@ public class GiftRepository : IGiftRepository
             default:
                 break;
         }
-        return await query.ToListAsync();
+        return await query.Take(100).ToListAsync();
 
 
     }
@@ -77,7 +77,7 @@ public class GiftRepository : IGiftRepository
         return await _context.Gifts
         .Where(g => g.CategoryId == categoryId)
         .Include(g => g.Category)
-        .ToListAsync();
+        .Take(100).ToListAsync();
     }
 
     public async Task<IEnumerable<GiftModel>> GetByDonorAsync(int donorId)
@@ -85,7 +85,7 @@ public class GiftRepository : IGiftRepository
         return await _context.Gifts
             .Where(g => g.DonorId == donorId)
             .Include(g => g.Category)
-            .ToListAsync();
+            .Take(100).ToListAsync();
     }
 
 
@@ -156,7 +156,7 @@ public class GiftRepository : IGiftRepository
         return await _context.Gifts
         .Where(g => g.Description.Contains(name))
         .Include(g => g.Category)
-        .ToListAsync();
+        .Take(100).ToListAsync();
     }
 
     public async Task<IEnumerable<GiftModel>> FilterByGiftDonor(string name)
@@ -165,7 +165,7 @@ public class GiftRepository : IGiftRepository
         .Include(g => g.Donor)
         .Include(g => g.Category)
         .Where(g => g.Donor.Name.Contains(name))
-        .ToListAsync();
+        .Take(100).ToListAsync();
     }
 
     public async Task<IEnumerable<GiftPurchaseCountDto>> GetPurchaseCountByGiftAsync()
@@ -182,7 +182,7 @@ public class GiftRepository : IGiftRepository
                     PurchaseCount = purchases.Count(p => p.Status == Status.Completed),
                     DonorName = gift.Donor.Name
                 })
-            .ToListAsync();
+            .Take(100).ToListAsync();
     }
 
     public async Task<bool> ExistsByDescriptionAsync(string description)

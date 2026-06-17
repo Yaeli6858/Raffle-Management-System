@@ -49,7 +49,7 @@ namespace server.Services
 
             return await _mapper
                 .ProjectTo<DonorListItemDto>(q.OrderBy(u => u.Name))
-                .ToListAsync();
+                .Take(100).ToListAsync();
 
         }
 
@@ -57,7 +57,7 @@ namespace server.Services
         {
             var donors = await _context.Users
                 .Where(u => u.Role == RoleEnum.Donor)
-                .ToListAsync();
+                .Take(100).ToListAsync();
 
             var gifts = await giftService.GetAllGiftsAsync(PriceSort.None, null, null);
 
@@ -96,7 +96,7 @@ namespace server.Services
             var gifts = await _context.Gifts
                 .Where(g => g.DonorId == donorId)
                 .Select(g => new { g.Id, g.Description })
-                .ToListAsync();
+                .Take(100).ToListAsync();
 
             var giftIds = gifts.Select(g => g.Id).ToList();
 
@@ -110,14 +110,14 @@ namespace server.Services
                     TicketsSold = grp.Sum(x => x.Qty),
                     UniqueBuyers = grp.Select(x => x.UserId).Distinct().Count()
                 })
-                .ToListAsync();
+                .Take(100).ToListAsync();
 
             // 3) זכיות לפי GiftId
             var winningGiftIds = await _context.Winnings
                 .Where(w => giftIds.Contains(w.GiftId))
                 .Select(w => w.GiftId)
                 .Distinct()
-                .ToListAsync();
+                .Take(100).ToListAsync();
 
             int Tickets(int giftId) =>
                 purchaseStats.FirstOrDefault(x => x.GiftId == giftId)?.TicketsSold ?? 0;
