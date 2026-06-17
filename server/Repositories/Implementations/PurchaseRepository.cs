@@ -19,7 +19,7 @@ public class PurchaseRepository : IPurchaseRepository
         => await _context.Purchases
             .Include(p => p.Gift)
             .Include(p => p.User)
-            .ToListAsync();
+            .Take(100).ToListAsync();
 
     public async Task<IEnumerable<PurchaseModel>> GetByGiftIdsAsync(IEnumerable<int> giftIds)
     {
@@ -27,7 +27,7 @@ public class PurchaseRepository : IPurchaseRepository
         .Where(p =>
             giftIds.Contains(p.GiftId) &&
             p.Status == Status.Completed)
-        .ToListAsync();
+        .Take(100).ToListAsync();
     }
 
 
@@ -77,7 +77,7 @@ public class PurchaseRepository : IPurchaseRepository
             .Include(p => p.Gift)
             .Include(p => p.User)
             .Where(p => p.GiftId == giftId && p.Status == Status.Completed)
-            .ToListAsync();
+            .Take(100).ToListAsync();
 
     public async Task<IEnumerable<GiftPurchaseCountDto>> GetPurchaseCountByGiftAsync()
     {
@@ -90,7 +90,7 @@ public class PurchaseRepository : IPurchaseRepository
                 PurchaseCount = g.Count(),
                 DonorName = g.First().Gift.Donor.Name
             })
-            .ToListAsync();
+            .Take(100).ToListAsync();
     }
 
 
@@ -99,7 +99,7 @@ public class PurchaseRepository : IPurchaseRepository
             .Include(p => p.Gift)
             .Include(p => p.User)
             .Where(p => p.UserId == userId && p.Status == Status.Draft)
-            .ToListAsync();
+            .Take(100).ToListAsync();
 
 
     public async Task<PurchaseModel?> FindDraftByUserAndGift(int userId, int giftId)

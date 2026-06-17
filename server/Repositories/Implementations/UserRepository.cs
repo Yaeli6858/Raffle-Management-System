@@ -18,7 +18,7 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
             .Where(u => u.IsActive)
-            .ToListAsync();
+            .Take(100).ToListAsync();
     }
 
     public async Task<UserModel?> GetUserByIdAsync(int id)

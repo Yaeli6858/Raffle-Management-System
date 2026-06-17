@@ -19,7 +19,7 @@ public class WinningRepository : IWinningRepository
         return await _context.Winnings
             .Include(w => w.Gift)
             .Include(w => w.User)
-            .ToListAsync();
+            .Take(100).ToListAsync();
     }
 
     public async Task<WinningModel?> GetWinningByIdAsync(int id)

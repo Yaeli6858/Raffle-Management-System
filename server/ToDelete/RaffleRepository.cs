@@ -16,7 +16,7 @@
 
 //     public async Task<List<RaffleModel>> GetAllAsync()
 //     {
-//         return await _context.Raffles.ToListAsync();
+//         return await _context.Raffles.Take(100).ToListAsync();
 //     }
 
 //     public async Task<RaffleModel?> GetByIdAsync(int id)
@@ -58,6 +58,6 @@
 //     {
 //         return await _context.Winnings
 //             .Where(w => w.RaffleId == raffleId)
-//             .ToListAsync();
+//             .Take(100).ToListAsync();
 //     }
 // }
